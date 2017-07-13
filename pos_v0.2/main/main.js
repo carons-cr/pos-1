@@ -18,9 +18,7 @@ function getItemArray(inputArray){
 //#2: 将count属性添加到已购买商品信息数组的元素中得到新数组，计划用时15分钟，实际用时13分钟
 function getCount(itemArray){
     var itemArray_addCount=new Array();
-    itemArray_addCount[0]=itemArray[0];
-    itemArray_addCount[0].count=1;
-    for(var i=1;i<itemArray.length;i++){
+    for(var i=0;i<itemArray.length;i++){
         var isInPreArr=0;    //放最外层循环，不然会一直等于1
         for(var j=itemArray_addCount.length-1;j>=0;j--){
             if(itemArray[i].barcode==itemArray_addCount[j].barcode){
@@ -30,7 +28,7 @@ function getCount(itemArray){
         }
         if(isInPreArr!=1){
             var length_now=itemArray_addCount.length;  //先将当前数组的长度存起来再使用
-            itemArray_addCount[length_now]=itemArray[i];
+            itemArray_addCount.push(itemArray[i]);
             itemArray_addCount[length_now].count=1;
         }
 
