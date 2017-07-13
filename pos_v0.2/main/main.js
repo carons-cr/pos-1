@@ -127,3 +127,4 @@ function loadAllItems() {
 }
 var itemArray=getItemArray(inputArray);
 printReceipt(itemArray);
+
