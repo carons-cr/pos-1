@@ -9,7 +9,7 @@ function getTags_addCount(tags){
     var tags_addCount=new Array();
     var newTags=[];
     for(var i=0;i<tags.length;i++){
-        var addLength=tags.indexOf('-');
+        var addLength=tags[i].indexOf('-');  //细节错误！是tags[i]，不是tags！！！
         var isInPreArr=0;
         newTags[i]={};
         if(addLength>0){
@@ -46,10 +46,16 @@ function getTags_addCost2(tags_addCount,allItems,promotions){
             if(tags_addCount[i].barcode==allItems[j].barcode){
                 tags_addCost2[i]=tags_addCount[i];
                 tags_addCost2[i].cost=(parseFloat(tags_addCost2[i].count)*parseFloat(allItems[j].price)).toFixed(2);
-                tags_addCost2[i].discount_cost=parseFloat(tags_addCost2[i].count)*parseFloat(allItems[j]).price;
+                tags_addCost2[i].discount_cost=parseFloat(tags_addCost2[i].count)*parseFloat(allItems[j].price);
+                //细节错误！括号在price后面，不在前面！！！
                 for(var k=0;k<promotions.length;k++){
-                    if((tags_addCount[i].barcode==promotions[k].barcodes)&&(tags_addCount[i].count>2)){
-                        tags_addCost2[i].discount_cost=tags_addCost2[i].discount_cost-parseFloat(allItems[j].price);                    }
+                    if(promotions[k].type=='BUY_TWO_GET_ONE_FREE'){
+                        for(var h=0;h<promotions[k].barcodes.length;h++){
+                            if((tags_addCount[i].barcode==promotions[k].barcodes[h])&&(tags_addCount[i].count>=3)){
+                                tags_addCost2[i].discount_cost-=parseFloat(allItems[j].price);
+                            }
+                        }
+                    }
                 }
                 tags_addCost2[i].discount_cost=(tags_addCost2[i].discount_cost).toFixed(2);
             }
@@ -82,25 +88,23 @@ function getSavingMoney(tags_addCost2){
 /*#5: 根据全部商品信息数组，包含数量，小计，折扣后小计的商品数组，总计，节省的钱*/
 function printReceipt(tags) {
     var tags_addCount=getTags_addCount(tags);
-    console.log(tags_addCount.length);
     var allItems=loadAllItems();
-    console.log(allItems.length);
     var promotions=loadPromotions();
     var tags_addCost2=getTags_addCost2(tags_addCount,allItems,promotions);
     var result;
-    var str1="***<没钱赚商店>收据***\n";
-    var str2="";
+    var str1='***<没钱赚商店>收据***\n';
+    var str2='';
     for(var i=0;i<tags_addCost2.length;i++){
         for(var j=0;j<allItems.length;j++){
             if(tags_addCost2[i].barcode==allItems[j].barcode){
-                str2+="名称："+allItems[j].name+"，数量："+tags_addCost2[i].count
-                    +allItems[j].unit+"，单价："+allItems[j].price+"(元)，"
-                    +tags_addCost2[i].discount_cost+"(元)，\n";
+                str2+='名称：'+allItems[j].name+'，数量：'+tags_addCost2[i].count
+                    +allItems[j].unit+'，单价：'+allItems[j].price+'(元)，'
+                    +tags_addCost2[i].discount_cost+'(元)，\n';
             }
         }
     }
-    var str3="----------------------\n"+"总计："+getSum_discount_cost(tags_addCost2)+"(元)，\n"
-        +"节省："+getSavingMoney(tags_addCost2)+"**********************";
+    var str3='----------------------\n'+'总计：'+getSum_discount_cost(tags_addCost2)+'(元)，\n'
+        +'节省：'+getSavingMoney(tags_addCost2)+'\n**********************';
     result=str1+str2+str3;
     //return result;
     console.log(result);
