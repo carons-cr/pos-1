@@ -21,7 +21,7 @@ describe('pos', () => {
         let number = 10;
         const actualResult=getTag(number);
 
-        let expectResult = 'wizz';
+        let expectResult = 'buzz';
 
         expect(actualResult).toEqual(expectResult);
     });
@@ -30,7 +30,7 @@ describe('pos', () => {
         let number = 14;
         const actualResult=getTag(number);
 
-        let expectResult = 'fizz';
+        let expectResult = 'wizz';
 
         expect(actualResult).toEqual(expectResult);
     });
@@ -71,7 +71,17 @@ describe('pos', () => {
         expect(actualResult).toEqual(expectResult);
     });
 
-    it('when number contain 3,should return the tag_3', () => {
+    it('when number contain 3 and is not times of 3,5,7 ,,should return the tag_3', () => {
+        let number = 31;
+
+        const actualResult=fizzbuzzwizz(number);
+
+        let expectResult = 'fizz';
+
+        expect(actualResult).toEqual(expectResult);
+    });
+
+    it('when number contain 3 and is times of 3,5,7 ,,should return the tag_3', () => {
         let number = 35;
 
         const actualResult=fizzbuzzwizz(number);
