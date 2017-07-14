@@ -2,8 +2,8 @@
  * Created by cr on 7/13/17.
  */
 function getTag(number){
-    var tag='';
-    if(number%3==0){
+    var tag=''
+   /* if(number%3==0){
         tag+='fizz';
     }
     if(number%5==0){
@@ -11,7 +11,8 @@ function getTag(number){
     }
     if(number%7==0){
         tag+='wizz';
-    }
+    }*/
+    tag=(number%3==0?'fizz':'')+(number%5==0?'buzz':'')+(number%7==0?'wizz':'');
     return tag;
 }
 function fizzbuzzwizz(number){
